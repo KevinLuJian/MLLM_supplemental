@@ -63,16 +63,23 @@
     <header>
         <div class="container">
             <h1>Revisiting Multi-Model LLM Evaluations</h1>
+            <div class="authors">
+                <p>Jian Lu, Shikhar Srivastava,Junyu Chen, Robik Shrestha, Manoj Acharya, Kushal Kafle, Christopher Kanan</p>
+            </div>
         </div>
     </header>
 
     <div class="container">
         <div class="main-content">
-            <h2>Introduction</h2>
+            <h1>Introduction</h1>
             <p>
-              We present four datasets used in our evaluations: VQDv1, TallyQA, TDIUC, and VQDv2. These datasets are designed to evaluate the performance of multi-model LLMs on a variety of tasks, including visual question answering, counting, and image understanding.
+              In the paper, we evaluate current popular MLLMs on four datasets created by our Lab: VQDv1, TallyQA, TDIUC, and DVQA. These datasets are designed to evaluate the performance of multi-model LLMs on a variety of tasks, including visual question answering, counting, and image understanding. 
+              VQDv1, TallyQA, and DVQA we evaluated are not based on complete evaluation sets, but instead choose the representative samples. This effectively shorten the testing sets, which
+              can help developers speed up the evaluation process, while still maintaining the diversity of the original dataset. 
+              To help researcher to reproduce our results, we provide the link to download the question-answer pairs of the sampling version of the datasets we used, as well as the link to download the images.
             </p>
-            <h2>VQDv1</h2>
+            <h2>Datasets</h2>
+            <h3>VQDv1</h3> 
             <p>VQDv1 requires the model to produce multiple bounding boxes instead of localizing only one object, thereby testing for general query detection skills. Unlike typical Referring expression datasets that assert every query will only, and will have to correspond to only one grounding bounding box,
                 the query in VQDv1 ask the model to generate an uncertain number of bounding boxes, from 0 to N, which pose additinal challenge to the model.
             </p>
@@ -81,26 +88,37 @@
                 please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/VQDv1_sampling.json">this link</a>.
             </p>
             <p>
-                To download the images, please download val2014 from <a href="http://images.cocodataset.org/zips/val2014.zip">val2014</a>.
+                To download the images, please download val2014 from <a href="http://images.cocodataset.org/zips/val2014.zip">this link</a>.
+            </p>
+            <p>
+                To download the evaluation script, please go to <a href="">this link</a>
             </p>
 
-            <h2>TallyQA</h2>
+            <h3>TallyQA</h3>
             <p>TallyQA tests models' visual grounding through counting skills. In additional to simple counting questions that the model can handle well with
                 straightforward object detection, TallyQA also incorporate complex counting qeuestions that demand sophicated reasoning capabilities, such as pose estimation(How many dogs are sitting?), positional reasoning(How many dogs are in front of the white building?)</p>
             <p> We directly use the complete version of the testing dataset of TallyQA, which has a reasonable size. To download the testing dataset of TallyQA, please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TallyQA_test.json">this link</a>.</p>
-            <p> To download the images, please go to from <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images.zip">VisualGenome part1</a>, and <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images2.zip">VisualGenome part2</a></p>
+            <p> To download the images, please go to <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images.zip">this link</a>, and <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images2.zip">this link</a></p>
             
-            <h2>TDIUC</h2>
+            <h3>TDIUC</h3>
             <p>TDIUC tests the models' versatility across 12 tasks including object, attribute, and activity recognition, as well as overall scene understanding. The meaningful categories of the question type permit fine-grain analysis of
-                models' abilities in different perspectives.
+                models' abilities in different perspectives, allowing us to identify the specific strengths and weaknesses of each model. 
             </p>
             <p>To download the question-answer pairs of our sampling version of TDIUC we used, please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TDIUC_sampling.json">this link</a>.</p>
-            <p>To download the images, please go to <a href="https://drive.google.com/file/d/1Hevf7eQNzg-qlXbfz9nPbATmQciexkDp/view?usp=share_link">val2014-TDIUC</a>.</p>
+            <p>To download the images, please go to <a href="https://drive.google.com/file/d/1Hevf7eQNzg-qlXbfz9nPbATmQciexkDp/view?usp=share_link">this link</a>.</p>
             <p>
-            <h2>DVQA</h2>
+            <h3>DVQA</h3>
             <p>DVQA requires the models to interpret and analyze visual data in chart form, testing for the ability to do OCR and to properly handle unusual words found in charts. The chart are all syntactic images, which can pose additional chanllenge that is different then natural images.</p>
             <p>To download the question-answer pairs of our sampling version of DVQA, please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/DVQA_sampling.json">this link</a>.</p>
             <p>To download the image, please go to <a href="https://drive.google.com/file/d/1iOSjgbqnTiLpMFuuRa3kIs3E_RxGkKmX/view?usp=share_link">this link</a>.</p>
+            <h2>Evaluation Script</h2>
+            To evaluate the performance of the models on the datasets, we provide the evaluation script for each dataset. Please prepare the answer file in the format of the question-answer pairs we provided.
+            Please go to this repository to download the evaluation script: <a href="https://github.com/KevinLuJian/MLLM-evaluation/tree/main/eval_script">script</a>". There are details instructions with regrads to how to use the script in the repository.
+
+            <h2>Example answer files</h2>
+            <p>For each dataset, we provide an example answer file in the format of the question-answer pairs we used. The example answer files can be found in <a href="https://github.com/KevinLuJian/MLLM-evaluation/tree/main/Evaluation_result(Ours)">this link</a> In short, the most important components are
+            predicted_answer and labeled_answer.</p>
+
         </div>
     </div>
 </body>
