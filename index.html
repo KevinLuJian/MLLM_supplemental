@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Evaluation Datasets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header li {
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        .main-content {
+            margin: 20px 0;
+        }
+        .stats ul {
+            list-style: none;
+            padding: 0;
+        }
+        .stats ul li {
+            background: #f4f4f4;
+            margin-bottom: 5px;
+            padding: 10px;
+            border: #ccc 1px solid;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Revisiting Multi-Model LLM Evaluations</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <h2>Introduction</h2>
+            <p>
+              We present four datasets used in our evaluations: VQDv1, TallyQA, TDIUC, and VQDv2. These datasets are designed to evaluate the performance of multi-model LLMs on a variety of tasks, including visual question answering, counting, and image understanding.
+            </p>
+            <h2>VQDv1</h2>
+            <p>VQDv1 requires the model to produce multiple bounding boxes instead of localizing only one object, thereby testing for general query detection skills. Unlike typical Referring expression datasets that assert every query will only, and will have to correspond to only one grounding bounding box,
+                the query in VQDv1 ask the model to generate an uncertain number of bounding boxes, from 0 to N, which pose additinal challenge to the model.
+            </p>
+            <p>
+                To download the question-answer pairs of our sampling version of VQDv1, 
+                please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/VQDv1_sampling.json">this link</a>.
+            </p>
+            <p>
+                To download the images, please download val2014 from <a href="http://images.cocodataset.org/zips/val2014.zip">val2014</a>.
+            </p>
+
+            <h2>TallyQA</h2>
+            <p>TallyQA tests models' visual grounding through counting skills. In additional to simple counting questions that the model can handle well with
+                straightforward object detection, TallyQA also incorporate complex counting qeuestions that demand sophicated reasoning capabilities, such as pose estimation(How many dogs are sitting?), positional reasoning(How many dogs are in front of the white building?)</p>
+            <p> We directly use the complete version of the testing dataset of TallyQA, which has a reasonable size. To download the testing dataset of TallyQA, please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TallyQA_test.json">this link</a>.</p>
+            <p> To download the images, please go to from <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images.zip">VisualGenome part1</a>, and <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images2.zip">VisualGenome part2</a></p>
+            
+            <h2>TDIUC</h2>
+            <p>TDIUC tests the models' versatility across 12 tasks including object, attribute, and activity recognition, as well as overall scene understanding. The meaningful categories of the question type permit fine-grain analysis of
+                models' abilities in different perspectives.
+            </p>
+            <p>To download the question-answer pairs of our sampling version of TDIUC we used, please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TDIUC_sampling.json">this link</a>.</p>
+            <p>To download the images, please go to <a href="https://drive.google.com/file/d/1Hevf7eQNzg-qlXbfz9nPbATmQciexkDp/view?usp=share_link">val2014-TDIUC</a>.</p>
+            <p>
+            <h2>DVQA</h2>
+            <p>DVQA requires the models to interpret and analyze visual data in chart form, testing for the ability to do OCR and to properly handle unusual words found in charts. The chart are all syntactic images, which can pose additional chanllenge that is different then natural images.</p>
+            <p>To download the question-answer pairs of our sampling version of DVQA, please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/DVQA_sampling.json">this link</a>.</p>
+            <p>To download the image, please go to <a href="https://drive.google.com/file/d/1iOSjgbqnTiLpMFuuRa3kIs3E_RxGkKmX/view?usp=share_link">this link</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
