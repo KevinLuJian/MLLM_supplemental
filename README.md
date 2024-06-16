@@ -17,9 +17,15 @@ VQDv1 requires the model to produce multiple bounding boxes instead of localizin
 
 ### TallyQA
 <p align="center">
-  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TallyQA/2.jpg" alt="TallyQA" width="400"/>
+  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TallyQA/2.jpg" alt="TallyQA" width="200"/>
+  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TallyQA/2.jpg" alt="TallyQA Image 2" width="200"/>
   <br>
   <em>How many people are there?</em>
+</p>
+
+<p align="center">
+  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/TallyQA_image1.png" alt="TallyQA Image 1" width="200"/>
+  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/TallyQA_image2.png" alt="TallyQA Image 2" width="200"/>
 </p>
 TallyQA tests models' visual grounding through counting skills. In addition to simple counting questions that the model can handle well with straightforward object detection, TallyQA also incorporates complex counting questions that demand sophisticated reasoning capabilities, such as pose estimation (e.g., "How many dogs are sitting?") and positional reasoning (e.g., "How many dogs are in front of the white building?").
 
