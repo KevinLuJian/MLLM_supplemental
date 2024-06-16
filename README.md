@@ -16,20 +16,25 @@ VQDv1 requires the model to produce multiple bounding boxes instead of localizin
 - [Download VQDv1 images (val2014)](http://images.cocodataset.org/zips/val2014.zip)
 
 ### TallyQA
-<div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
-  <figure style="margin: 10px;">
+<div style="display: flex; justify-content: center; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+  <figure style="margin: 10px; text-align: center;">
     <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image1.png" alt="Image 1" width="200"/>
-    <figcaption style="text-align: center;">Figure 1: Caption for Image 1</figcaption>
+    <figcaption>Figure 1: Caption for Image 1</figcaption>
   </figure>
-  <figure style="margin: 10px;">
+  <figure style="margin: 10px; text-align: center;">
     <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image2.png" alt="Image 2" width="200"/>
-    <figcaption style="text-align: center;">Figure 2: Caption for Image 2</figcaption>
+    <figcaption>Figure 2: Caption for Image 2</figcaption>
   </figure>
-  <figure style="margin: 10px;">
+  <figure style="margin: 10px; text-align: center;">
     <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image3.png" alt="Image 3" width="200"/>
-    <figcaption style="text-align: center;">Figure 3: Caption for Image 3</figcaption>
+    <figcaption>Figure 3: Caption for Image 3</figcaption>
+  </figure>
+  <figure style="margin: 10px; text-align: center;">
+    <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image4.png" alt="Image 4" width="200"/>
+    <figcaption>Figure 4: Caption for Image 4</figcaption>
   </figure>
 </div>
+
 TallyQA tests models' visual grounding through counting skills. In addition to simple counting questions that the model can handle well with straightforward object detection, TallyQA also incorporates complex counting questions that demand sophisticated reasoning capabilities, such as pose estimation (e.g., "How many dogs are sitting?") and positional reasoning (e.g., "How many dogs are in front of the white building?").
 
 - [Download TallyQA testing dataset](https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TallyQA_test.json)
