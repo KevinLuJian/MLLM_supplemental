@@ -16,20 +16,9 @@ VQDv1 requires the model to produce multiple bounding boxes instead of localizin
 - [Download VQDv1 images (val2014)](http://images.cocodataset.org/zips/val2014.zip)
 
 ### TallyQA
-<div style="display: flex; justify-content: center; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
-  <div style="text-align: center; margin: 10px;">
-    <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image1.png" alt="Image 1" width="200"/>
-    <div>Figure 1: Caption for Image 1</div>
-  </div>
-  <div style="text-align: center; margin: 10px;">
-    <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image2.png" alt="Image 2" width="200"/>
-    <div>Figure 2: Caption for Image 2</div>
-  </div>
-  <div style="text-align: center; margin: 10px;">
-    <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image3.png" alt="Image 3" width="200"/>
-    <div>Figure 3: Caption for Image 3</div>
-  </div>
-</div>
+<p align="center">
+  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TallyQA/CleanShot%202024-06-16%20at%2015.07.48%402x.png" alt="Example Image"/>
+</p>
 
 TallyQA tests models' visual grounding through counting skills. In addition to simple counting questions that the model can handle well with straightforward object detection, TallyQA also incorporates complex counting questions that demand sophisticated reasoning capabilities, such as pose estimation (e.g., "How many dogs are sitting?") and positional reasoning (e.g., "How many dogs are in front of the white building?").
 
@@ -38,6 +27,9 @@ TallyQA tests models' visual grounding through counting skills. In addition to s
 - [Download TallyQA images part 2](https://cs.stanford.edu/people/rak248/VG_100K_2/images2.zip)
 
 ### TDIUC
+<p align="center">
+  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TDIUC.png" alt="Example Image"/>
+</p>
 TDIUC tests the models' versatility across 12 tasks, including object, attribute, and activity recognition, as well as overall scene understanding. The meaningful categories of question types permit fine-grain analysis of the models' abilities from different perspectives, allowing us to identify the specific strengths and weaknesses of each model.
 
 - [Download TDIUC question-answer pairs](https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TDIUC_sampling.json)
