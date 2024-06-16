@@ -17,10 +17,22 @@ VQDv1 requires the model to produce multiple bounding boxes instead of localizin
 
 ### TallyQA
 <p align="center">
-  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TallyQA/2.jpg" alt="TallyQA" width="200"/>
-  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TallyQA/2.jpg" alt="TallyQA Image 2" width="200"/>
-  <br>
-  <em>How many people are there?</em>
+  <figure style="display:inline-block; margin:10px;">
+    <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image1.png" alt="Image 1" width="200"/>
+    <figcaption>Figure 1: Caption for Image 1</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin:10px;">
+    <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image2.png" alt="Image 2" width="200"/>
+    <figcaption>Figure 2: Caption for Image 2</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin:10px;">
+    <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image3.png" alt="Image 3" width="200"/>
+    <figcaption>Figure 3: Caption for Image 3</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin:10px;">
+    <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image4.png" alt="Image 4" width="200"/>
+    <figcaption>Figure 4: Caption for Image 4</figcaption>
+  </figure>
 </p>
 
 <p align="center">
