@@ -19,15 +19,15 @@ VQDv1 requires the model to produce multiple bounding boxes instead of localizin
 <div style="display: flex; justify-content: center; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
   <figure style="margin: 10px; text-align: center;">
     <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image1.png" alt="Image 1" width="200"/>
-    <figcaption>Figure 1: Caption for Image 1</figcaption>
+    <em>Figure 1: An example image.</em>
   </figure>
   <figure style="margin: 10px; text-align: center;">
     <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image2.png" alt="Image 2" width="200"/>
-    <figcaption>Figure 2: Caption for Image 2</figcaption>
+    <em>Figure 1: An example image.</em>
   </figure>
   <figure style="margin: 10px; text-align: center;">
     <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image3.png" alt="Image 3" width="200"/>
-    <figcaption>Figure 3: Caption for Image 3</figcaption>
+    <em>Figure 1: An example image.</em>
   </figure>
 </div>
 
