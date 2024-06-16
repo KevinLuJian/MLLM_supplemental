@@ -1,0 +1,4 @@
+
+{"image": "VG_100K_2/2413819.jpg", "answer": 3, "data_source": "imported_genome", "question": "How many fins are on the surfboard?", "image_id": 92413819, "question_id": 30094207, "issimple": true}
+{"image": "VG_100K_2/1.jpg", "answer": 2, "data_source": "imported_genome", "question": "How many people are pictured?", "image_id": 90000001, "question_id": 30092458, "issimple": true}
+{"image": "VG_100K/2368042.jpg", "answer": 4, "data_source": "amt", "question": "How many plates have food?", "image_id": 92368042, "question_id": 923680427178, "issimple": false}

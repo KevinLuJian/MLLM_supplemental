@@ -1,0 +1,3 @@
+{"question": "What is the label of the second bar from the left?", "question_id": 24608311, "template_id": "data", "answer": "world", "image": "bar_val_easy_00046083.png", "answer_bbox": [335.84703282828275, 402.2, 71.5, 39.0]}
+{"question": "Which group has the largest summed value?", "question_id": 24321607, "template_id": "reasoning", "answer": "fish", "image": "bar_val_easy_00043216.png", "answer_bbox": [91.22391777008313, 366.0456710674493, 52.52691193458121, 52.526911934581186]}
+{"question": "Are the bars horizontal?", "question_id": 23321517, "template_id": "structure", "answer": "yes", "image": "bar_val_easy_00033215.png", "answer_bbox": []}
