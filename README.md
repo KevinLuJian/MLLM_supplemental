@@ -10,6 +10,9 @@ VQDv1, TallyQA, and DVQA evaluations are not based on complete datasets but inst
 ## Datasets
 
 ### VQDv1
+<p align="center">
+  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/VQDv1.png" alt="Example Image"/>
+</p>
 VQDv1 requires the model to produce multiple bounding boxes instead of localizing only one object, thereby testing general query detection skills. Unlike typical referring expression datasets, which assert that every query will correspond to only one bounding box, VQDv1 queries ask the model to generate an uncertain number of bounding boxes, from 0 to N, posing an additional challenge to the model.
 
 - [Download VQDv1 question-answer pairs](https://github.com/KevinLuJian/MLLM-evaluation/raw/main/VQDv1_sampling.json)
