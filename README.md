@@ -29,10 +29,6 @@ VQDv1 requires the model to produce multiple bounding boxes instead of localizin
     <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image3.png" alt="Image 3" width="200"/>
     <figcaption>Figure 3: Caption for Image 3</figcaption>
   </figure>
-  <figure style="margin: 10px; text-align: center;">
-    <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/images/image4.png" alt="Image 4" width="200"/>
-    <figcaption>Figure 4: Caption for Image 4</figcaption>
-  </figure>
 </div>
 
 TallyQA tests models' visual grounding through counting skills. In addition to simple counting questions that the model can handle well with straightforward object detection, TallyQA also incorporates complex counting questions that demand sophisticated reasoning capabilities, such as pose estimation (e.g., "How many dogs are sitting?") and positional reasoning (e.g., "How many dogs are in front of the white building?").
