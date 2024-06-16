@@ -17,7 +17,7 @@ VQDv1 requires the model to produce multiple bounding boxes instead of localizin
 
 ### TallyQA
 <p align="center">
-  <img src="/workspaces/MLLMs_webpage/Images/TallyQA/2.jpg" alt="TallyQA" width="400"/>
+  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TallyQA/2.jpg" alt="TallyQA" width="400"/>
   <br>
   <em>How many people are there?</em>
 </p>
