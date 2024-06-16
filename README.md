@@ -44,6 +44,10 @@ TDIUC tests the models' versatility across 12 tasks, including object, attribute
 - [Download TDIUC images](https://drive.google.com/file/d/1Hevf7eQNzg-qlXbfz9nPbATmQciexkDp/view?usp=share_link)
 
 ### DVQA
+
+<p align="center">
+  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/DVQA/CleanShot%202024-06-16%20at%2014.32.32%402x.png" alt="Example Image"/>
+</p>
 DVQA requires the models to interpret and analyze visual data in chart form, testing their ability to perform OCR and handle unusual words found in charts. The charts are all synthetically generated images, which pose additional challenges different from natural images.
 
 - [Download DVQA question-answer pairs](https://github.com/KevinLuJian/MLLM-evaluation/raw/main/DVQA_sampling.json)
