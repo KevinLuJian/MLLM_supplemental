@@ -1,140 +1,514 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Evaluation Datasets</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding-top: 30px;
-            min-height: 70px;
-            border-bottom: #77aaff 3px solid;
-        }
-        header a {
-            color: #fff;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 16px;
-        }
-        header ul {
-            padding: 0;
-            list-style: none;
-        }
-        header li {
-            display: inline;
-            padding: 0 20px;
-        }
-        .main-content {
-            margin: 20px 0;
-        }
-        .stats ul {
-            list-style: none;
-            padding: 0;
-        }
-        .stats ul li {
-            background: #e9ecef;
-            margin-bottom: 5px;
-            padding: 10px;
-            border: #ccc 1px solid;
-            border-radius: 5px;
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            margin-top: 20px;
-        }
-        h1, h2, h3 {
-            color: #2c3e50;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .authors p {
-            font-style: italic;
-        }
-    </style>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="Localizing Task Information for Improved Model Merging and Compression">
+  <meta property="og:title" content="Localizing Task Information for Improved Model Merging and Compression" />
+  <meta property="og:description" content="Localizing Task Information for Improved Model Merging and Compression" />
+  <meta property="og:url" content="tall-masks.github.io" />
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/images/illustration.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+
+  <meta name="twitter:title" content="Localizing Task Information for Improved Model Merging and Compression">
+  <meta name="twitter:description" content="Localizing Task Information for Improved Model Merging and Compression">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/illustration.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="model merging, task arithmetic, multi-task, deep learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>TALL masks</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
 </head>
+
 <body>
-    <header>
-        <div class="container">
-            <h1>Revisiting Multi-Model LLM Evaluations</h1>
-            <div class="authors">
-                <p>Jian Lu, Shikhar Srivastava, Junyu Chen, Robik Shrestha, Manoj Acharya, Kushal Kafle, Christopher Kanan</p>
+
+
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Localizing Task Information for Improved Model Merging and
+              Compression</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://wangke97.github.io/" target="_blank">Ke Wang</a><sup>* 1</sup>,</span>
+              <span class="author-block">
+                <a href="https://nik-dim.github.io" target="_blank">Nikolaos Dimitriadis</a><sup>* 1</sup>,</span>
+              <span class="author-block">
+                <a href="https://gortizji.github.io/" target="_blank">Guillermo Ortiz-Jiménez</a><sup>2</sup>,</span>
+              </span>
+              <span class="author-block">
+                <a href="https://fleuret.org/" target="_blank">François Fleuret</a><sup>3</sup>,</span>
+              </span>
+              <span class="author-block">
+                <a href="https://www.epfl.ch/labs/lts4/people/people-current/frossard/" target="_blank">Pascal
+                  Frossard</a><sup>1</sup></span>
+              </span>
             </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <sup>1</sup>EPFL
+                <sup>2</sup>Google Deepmind
+                <sup>3</sup>University of Geneva
+                <br>ICML 2024</span>
+              <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Arxiv PDF link -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2405.07813" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+
+                <!-- Github link -->
+                <span class="link-block">
+                  <a href="https://github.com/nik-dim/tall_masks" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- ArXiv abstract Link -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2405.07813" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-    </header>
-
-    <div class="container">
-        <div class="main-content">
-            <h1>Introduction</h1>
-            <p>
-              In this paper, we evaluate popular multi-modal large language models (MLLMs) on four datasets created by our lab: VQDv1, TallyQA, TDIUC, and DVQA. These datasets are designed to assess the performance of multi-modal LLMs on various tasks, including visual question answering, counting, and image understanding. 
-              VQDv1, TallyQA, and DVQA evaluations are not based on complete datasets but instead use representative samples. This effectively shortens the testing sets, allowing developers to expedite the evaluation process while maintaining the diversity of the original datasets. This websites provides the datasets, evaluation scripts, and example answer files for researchers to reproduce our results.
-            </p>
-            <h2>Datasets</h2>
-            <h3>VQDv1</h3> 
-            <p>VQDv1 requires the model to produce multiple bounding boxes instead of localizing only one object, thereby testing general query detection skills. Unlike typical referring expression datasets, which assert that every query will correspond to only one bounding box, VQDv1 queries ask the model to generate an uncertain number of bounding boxes, from 0 to N, posing an additional challenge to the model.
-            </p>
-            <p>
-                To download the question-answer pairs of our sampled version of VQDv1, 
-                please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/VQDv1_sampling.json">this link</a>.
-            </p>
-            <p>
-                To download the images, please download val2014 from <a href="http://images.cocodataset.org/zips/val2014.zip">this link</a>.
-            </p>
-
-            <h3>TallyQA</h3>
-            <p>TallyQA tests models' visual grounding through counting skills. In addition to simple counting questions that the model can handle well with straightforward object detection, TallyQA also incorporates complex counting questions that demand sophisticated reasoning capabilities, such as pose estimation (e.g., "How many dogs are sitting?") and positional reasoning (e.g., "How many dogs are in front of the white building?").
-            </p>
-            <p> We directly use the complete version of the TallyQA testing dataset, which has a reasonable size. To download the testing dataset of TallyQA, please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TallyQA_test.json">this link</a>.</p>
-            <p> To download the images, please go to <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images.zip">this link</a> and <a href="https://cs.stanford.edu/people/rak248/VG_100K_2/images2.zip">this link</a>.</p>
-            
-            <h3>TDIUC</h3>
-            <p>TDIUC tests the models' versatility across 12 tasks, including object, attribute, and activity recognition, as well as overall scene understanding. The meaningful categories of question types permit fine-grain analysis of the models' abilities from different perspectives, allowing us to identify the specific strengths and weaknesses of each model.
-            </p>
-            <p>To download the question-answer pairs of our sampled version of TDIUC, please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TDIUC_sampling.json">this link</a>.</p>
-            <p>To download the images, please go to <a href="https://drive.google.com/file/d/1Hevf7eQNzg-qlXbfz9nPbATmQciexkDp/view?usp=share_link">this link</a>.</p>
-
-            <h3>DVQA</h3>
-            <p>DVQA requires the models to interpret and analyze visual data in chart form, testing their ability to perform OCR and handle unusual words found in charts. The charts are all synthetically generated images, which pose additional challenges different from natural images.</p>
-            <p>To download the question-answer pairs of our sampled version of DVQA, please go to <a href="https://github.com/KevinLuJian/MLLM-evaluation/raw/main/DVQA_sampling.json">this link</a>.</p>
-            <p>To download the images, please go to <a href="https://drive.google.com/file/d/1iOSjgbqnTiLpMFuuRa3kIs3E_RxGkKmX/view?usp=share_link">this link</a>.</p>
-
-            <h2>Evaluation Script</h2>
-            <p>To evaluate the performance of the models on the datasets, we provide evaluation scripts for each dataset. Please prepare the answer files in the format of the question-answer pairs we provided. You can download the evaluation scripts from this repository: <a href="https://github.com/KevinLuJian/MLLM-evaluation/tree/main/eval_script">script</a>. Detailed instructions on how to use the scripts are available in the repository.</p>
-
-            <h2>Example Answer Files</h2>
-            <p>For each dataset, we provide example answer files in the format of the question-answer pairs we used. The example answer files can be found at <a href="https://github.com/KevinLuJian/MLLM-evaluation/tree/main/Evaluation_result(Ours)">this link</a>. The most important components are the predicted answer and the labeled answer.</p>
-            <h2>Data Sampling script</h2>
-            <p>For the datasets, VQDv1, TDIUC, and DVQA, where we sample a portion of the original testing datsets, we provide the <a href="https://github.com/KevinLuJian/MLLM-evaluation/tree/main/datasets_sampling">sampling scripts</a> that show how the datasets are being sampled, with detailed instructions in readme file.</p>
-        </div>
+      </div>
     </div>
+  </section>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Multi-Model LLM Evaluations. All rights reserved.</p>
+  <!-- Teaser video-->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <img class="rounded" src="static/images/illustration.png" width="100%">
+      <!-- <div class="hero-body">
+      <h2 class="subtitle has-text-centered">
+        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
+      </h2>
+    </div> -->
+    </div>
+  </section>
+  <!-- End teaser video -->
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Model merging and task arithmetic have emerged as promising scalable approaches to merge multiple
+              single-task checkpoints to one multi-task model, but their applicability is reduced by significant
+              performance loss. Previous works have linked these drops to interference in the weight space and erasure
+              of important task-specific features. Instead, in this work we show that the information required to solve
+              each task is still preserved after merging as different tasks mostly use non-overlapping sets of weights.
+              We propose TALL-masks, a method to identify these task supports given a collection of task vectors and
+              show that one can retrieve >99% of the single task accuracy by applying our masks to the multi-task
+              vector, effectively compressing the individual checkpoints. We study the statistics of intersections among
+              constructed masks and reveal the existence of <em>selfish</em> and <em>catastrophic</em> weights, i.e.,
+              parameters that are important exclusively to one task and irrelevant to all tasks but detrimental to
+              multi-task fusion. For this reason, we propose Consensus Merging, an algorithm that eliminates such
+              weights and improves the general performance of existing model merging approaches. Our experiments in
+              vision and NLP benchmarks with up to 20 tasks, show that Consensus Merging consistently improves existing
+              approaches. Furthermore, our proposed compression scheme reduces storage from 57Gb to 8.2Gb while
+              retaining 99.7% of original performance.
+            </p>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </section>
+  <!-- End paper abstract -->
+
+  <section class="section hero ">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h2 class="title is-3">Motivation</h2>
+
+
+          <div class="content has-text-justified">
+            <p>
+              <!-- <em> -->
+              <!-- <b>: </b> -->
+              A paradigm shift has occured in the last few years with the development of foundation models and the
+              release of fine-tuned checkpoints stemming from them. From the seed of one pre-trained model, e.g. CLIP,
+              multiple checkpoints are available online for many different tasks.
+
+              In multi-task model merging or <em>task arithmetic</em>, the goal is to merge these single-task
+              checkpoints into one multi-task model. However, the performance of the merged model is often
+              significantly
+              lower compared to the single-task models.
+              <!-- </em> -->
+            </p>
+          </div>
+
+          <h2 class="title is-3">TL;DR takeaways</h2>
+          <img src="static/images/website_norm_acc_vs_num_tasks2.png" alt="MY ALT TEXT" width="80%" />
+          <h2 class="subtitle has-text-centered is-6">
+            The performance of merged model drops as the number of tasks increase, almost to zero-shot performance.
+            However, the imporant information is still there and we can retrieve it (see <em>TALL Mask + TA</em>). We
+            also use this information to improve model merging (see <em>Consensus TA</em>).
+          </h2>
+
+          <div class="content has-text-justified">
+            <p>
+              The main takeaways of the paper are:
+            </p>
+            <ul>
+              <li>We propose the <b>TA</b>sk <b>L</b>oca<b>L</b>ization Masks (TALL-masks) method that identifies
+                the important task-specific parameters in the merged vector, allowing us to retrieve >99% of the
+                original
+                performance across many different test scenarios.</li>
+              <li>We demonstrate that despite the significant loss in performance, the important task-specific
+                information
+                is retained post-merging and use our gained insights to improve model merging and significantly compress
+                the models.</li>
+              <li>The proposed method has immediate downstream implication for compression: we only need to save the
+                zeroshot vector, the merged vector (e.g. in float32) and task-specific binary masks instead of all the
+                fine-tuned models.</li>
+              <li>
+                We compare the masks among tasks and observe that many weights are only deemed important by few tasks,
+                in some case a single task or none at all. We eliminate these weights and propose the Consensus Merging
+                algorithm that improves the performance of existing model merging approaches.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-justified">
+        <div class="column">
+          <h2 class="title is-3 has-text-centered">How TALL-masks works</h2>
+
+          <p>
+            <b>Setup: </b>
+            Assume a pretrained model \(f(\boldsymbol{x}; \boldsymbol{\theta}_0)\) where \(\boldsymbol{x}\) is the input
+            and \(\boldsymbol{\theta}_0\) are the <em>pre-trained</em> weights. We fine-tune the model on \(T\) tasks,
+            obtaining the fine-tuned weights \(\boldsymbol{\theta}_t=\boldsymbol{\theta}_0 +\boldsymbol{\tau}_t, \forall
+            t\in[T]\), where \(\boldsymbol{\tau}_t\) are the <b>task-vectors</b>. Given these task vectors, the goal is
+            to merge them into one multi-task vector \(\boldsymbol{\tau}_{\text{MTL}}\) and this can be done with
+            various methods, such as task arithmetic (TA) or TIES. The final model with parameters
+            \(\boldsymbol{\theta}=\boldsymbol{\theta}_0 + \boldsymbol{\tau}_{\text{MTL}}\) is then a multi-task model.
+          </p>
+          <br>
+          <p>
+            <b>Localizing task-specific information.</b>
+            We aim to find the weights <em>in the multi-task vector</em> \(\boldsymbol{\tau}_{\text{MTL}}\) that are
+            important for each task. We do this by developping a sparse binary mask \(\boldsymbol{m}_t\) for each task
+            \(t\) that approximates functionally the original task vector \(\boldsymbol{\tau}_t\). The mask is defined
+            as:
+            \begin{align}
+            \boldsymbol{m}_t = \unicode{x1D7D9} \left\{|\boldsymbol{\tau}_t| \geq |\boldsymbol{\tau}_{\text{MTL}} -
+            \boldsymbol{\tau}_t| * \lambda_t \right\}
+            \end{align}
+            where \(\lambda_t\) is a threshold parameter that controls the sparsity of the mask and is set via a
+            held-out validation set.
+          </p>
+          <br>
+          <p>
+            <b>Application 1: Compression.</b>
+            Surprisingly, using the model with parameters \(\boldsymbol{\theta}_0 +
+            \boldsymbol{m}_t \circ \boldsymbol{\tau}_{\text{MTL}}\) we can retrieve >99% of the original performance
+            compared to the original model with parameters \(\boldsymbol{\theta}_t= \boldsymbol{\theta}_0 +
+            \boldsymbol{\tau}_t\). This has immediate implications for compression as we only need to store
+            \(\boldsymbol{\tau}_{\text{MTL}}\), \(\boldsymbol{m}_t, \forall t \in [T]\) and the zeroshot model
+            \(\boldsymbol{\theta}_0\) instead of all the fine-tuned checkpoints \(\boldsymbol{\theta}_t, \forall
+            t\in[T]\).
+          </p>
+          <br>
+          <p>
+            <b>Application 2: Improving model merging.</b>
+            Given the task-specific binary masks, it is interesting to study the intersection of the masks among tasks.
+            <em>Do tasks use many of the same parameters? Are there weights deemed important only by one task? Or
+              none?</em> Turns out that this is the case and we observe the existence of <em>selfish</em> and
+            <em>catastrophic</em> weights, i.e., parameters that are important exclusively to one task and irrelevant to
+            all tasks. We propose the Consensus Merging algorithm that eliminates these weights and improves the
+            performance for multi-task model merging:
+
+          </p>
+          <!-- \begin{align}
+          \boldsymbol{m}_{t}^* &= \underset{\boldsymbol{m}_t \in \{0,1\}^N}{\operatorname{argmin}}
+          \|\hat{\boldsymbol{\theta}}_{t} -
+          \boldsymbol{\theta}_{t}\|_1
+          \\
+          &= \underset{\boldsymbol{m}_t \in \{0,1\}^N}{\operatorname{argmin}} \|\boldsymbol{m}_{t} \circ
+          \boldsymbol{\tau}_{\text{MTL}} -
+          \boldsymbol{\tau}_{t}\|_1 \\
+          &= \unicode{x1D7D9} \{ |\boldsymbol{\tau}_t| \geq |\boldsymbol{\tau}_{\text{MTL}} - \boldsymbol{\tau}_t| \}
+          \label{eq:lambd}
+          \end{align} -->
+
+
+
+
+          \begin{align}
+          \boldsymbol{m}_\textrm{consensus} = {\LARGE \unicode{x1D7D9}} \left\{ \sum_{t\in[T]} \boldsymbol{m}_t \geq
+          k\right\}
+          \end{align}
+          and the final multi-task vector is obtained by element-wise multiplication of the consensus mask with the
+          underlying merged vector:
+          \begin{align}
+          \boldsymbol{\tau}_\textrm{consensus} = \boldsymbol{m}_\textrm{consensus} \circ \boldsymbol{\tau}_{\text{MTL}}
+          \end{align}
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <section class="section hero">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h2 class="title is-3">Main Results</h2>
+
+          <div class="content has-text-left">
+            <p>
+              <b style="color: blue;">Natural Language Processing</b>: Eliminating the catastrophic and selfish weights
+              leads to significant gains in performance for all three cases. For example, augmenting TIES with our
+              proposed method in the case of 8 Q&A tasks leads to 6.9% absolute performance improvement.
+            </p>
+            <center>
+              <img src="static/images/table-nlp.png" alt="MY ALT TEXT" width="80%" />
+            </center>
+          </div>
+
+          <div class="content has-text-left">
+            <p>
+              <b style="color: blue;">Computer Vision</b>: Our compression scheme is robust to the increase in the
+              number of tasks; even for 20 tasks all model sizes achieve 99% performance retention. Also, our model
+              merging method outperforms the baselines, especially as the number of tasks and the model size increase.
+            </p>
+            <center>
+              <img src="static/images/table-vision.png" alt="MY ALT TEXT" width="80%" />
+            </center>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- Image carousel -->
+  <section class="hero is-small">
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+
+        <center>
+          <h2 class="title is-3">Key observations</h2>
+        </center>
+      </div>
+
+      <div class="container">
+        <p>
+          <b style="color: blue;">Observation 1</b>: For all three computer vision benchmarks (8, 14 and 20 tasks),
+          TALL-masks is able to retrieve almost the full performance of the single-task models, while eliminating
+          catastrophic and selfish weights improves the performance of the merged model compared to baselines for
+          all tasks.
+        </p>
+        <div class="container content has-text-left">
+          <center>
+            <img src="static/images/invididual_results_vit_b_32_radar_combined.png" alt="MY ALT TEXT" width="80%" />
+          </center>
+        </div>
+
+        <!--  -->
+        <div class="container">
+          <p>
+            <b style="color: blue;">Observation 2</b>: Different model merging methods result in different
+            allocation
+            of important parameters across tasks. For instance, TIES aligns a significant portion of the
+            paramaters
+            so
+            that they are deemed imporant by all tasks. The <em>mask agreement profile</em> varies as the number
+            of
+            tasks increases.
+          </p>
+          <div id="results-carousel" class="carousel results-carousel">
+            <div class="item">
+              <!-- Your image here -->
+              <img src="static/images/weights_a.png" alt="MY ALT TEXT" />
+              <h2 class="subtitle has-text-centered">
+                8 tasks. TIES pushes the distribution of weights to the edges: important for all and for a few
+                tasks.
+              </h2>
+            </div>
+            <div class="item">
+              <!-- Your image here -->
+              <img src="static/images/weights_b.png" alt="MY ALT TEXT" />
+              <h2 class="subtitle has-text-centered">
+                14 tasks. The same effect is more pronounced.
+
+              </h2>
+            </div>
+            <div class="item">
+              <!-- Your image here -->
+              <img src="static/images/weights_c.png" alt="MY ALT TEXT" />
+              <h2 class="subtitle has-text-centered">
+                20 tasks. The same effect is more pronounced. Task Arithmetic has a more balanced distribution of
+                mask
+                agreement.
+              </h2>
+            </div>
+          </div>
+          <!--  -->
+          <!--  -->
+          <div class="container">
+            <p>
+              <b style="color: blue;">Observation 3</b>: The difference in <em>mask agreement profiles</em> leads to
+              different performance of merged models as more and more parameters are discarded. The behavior depends
+              on the number of tasks but TIES is more sensitive thatn Task Arithmetic (TA).
+            </p>
+            <div id="results-carousel" class="carousel results-carousel">
+              <div class="item">
+                <!-- Your image here -->
+                <img src="static/images/consensus_a.png" alt="MY ALT TEXT" />
+                <h2 class="subtitle has-text-centered">
+                  8 tasks. TIES and TA perform similarly. TIES works better for \(k=1\) which makes sense given the
+                  corresponding mask agreement distribution above.
+                </h2>
+              </div>
+              <div class="item">
+                <!-- Your image here -->
+                <img src="static/images/consensus_b.png" alt="MY ALT TEXT" />
+                <h2 class="subtitle has-text-centered">
+                  14 tasks. Task arithmetic performs better when removing parameters deemed imporantby a few tasks.
+                  The
+                  opposite is true for TIES.
+
+                </h2>
+              </div>
+              <div class="item">
+                <!-- Your image here -->
+                <img src="static/images/consensus_c.png" alt="MY ALT TEXT" />
+                <h2 class="subtitle has-text-centered">
+                  20 tasks. The effect is even more pronounced with task arithmetic being more robust to the threshold
+                  \(k\). Still, applying the consensus mask for \(k=1\) improves TIES.
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+  </section>
+
+
+
+
+  <!--BibTex citation -->
+  <section class="section" id="BibTeX ">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <!--noformat-->
+      <pre><code>@inproceedings{ke2024localizing,
+  title={Localizing Task Information for Improved Model Merging and Compression},
+  author={Wang, Ke and
+    Dimitriadis, Nikolaos and
+    Ortiz{-}Jim{\'{e}}nez, Guillermo and
+    Fleuret, Fran\c{c}ois and
+    Frossard, Pascal},
+  booktitle={International Conference on Machine Learning},
+  year={2024}
+}</code></pre>
+        <!--noformat-->
+    </div>
+  </section>
+  <!--End BibTex citation -->
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <div class="content">
+
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                target="_blank">Academic Project Page Template</a> which was adopted from the <a
+                href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              You are free to borrow the template of this website, we just ask that you link back to this page in the
+              footer. <br> This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Statcounter tracking code -->
+
+  <!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+  <!-- End of Statcounter Code -->
+
 </body>
+
 </html>
