@@ -4,32 +4,19 @@ This is the source code to reproduce the evaluations in "Revisiting Multi-Model 
 ## Datasets
 
 ### VQDv1
-<p align="center">
-  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/VQDv1.png" alt="Example Image"/>
-</p>
 - [Download VQDv1 question-answer pairs](https://github.com/KevinLuJian/MLLM-evaluation/raw/main/VQDv1_sampling.json)
 - [Download VQDv1 images (val2014)](http://images.cocodataset.org/zips/val2014.zip)
 
 ### TallyQA
-<p align="center">
-  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TallyQA/CleanShot%202024-06-16%20at%2015.07.48%402x.png" alt="Example Image"/>
-</p>
 - [Download TallyQA testing dataset](https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TallyQA_test.json)
 - [Download TallyQA images part 1](https://cs.stanford.edu/people/rak248/VG_100K_2/images.zip)
 - [Download TallyQA images part 2](https://cs.stanford.edu/people/rak248/VG_100K_2/images2.zip)
 
 ### TDIUC
-<p align="center">
-  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/TDIUC.png" alt="Example Image"/>
-</p>
 - [Download TDIUC question-answer pairs](https://github.com/KevinLuJian/MLLM-evaluation/raw/main/TDIUC_sampling.json)
 - [Download TDIUC images](https://drive.google.com/file/d/1Hevf7eQNzg-qlXbfz9nPbATmQciexkDp/view?usp=share_link)
 
 ### DVQA
-
-<p align="center">
-  <img src="https://github.com/KevinLuJian/MLLMs_webpage/blob/main/Images/DVQA/CleanShot%202024-06-16%20at%2014.32.32%402x.png" alt="Example Image"/>
-</p>
 - [Download DVQA question-answer pairs](https://github.com/KevinLuJian/MLLM-evaluation/raw/main/DVQA_sampling.json)
 - [Download DVQA images](https://drive.google.com/file/d/1iOSjgbqnTiLpMFuuRa3kIs3E_RxGkKmX/view?usp=share_link)
 
