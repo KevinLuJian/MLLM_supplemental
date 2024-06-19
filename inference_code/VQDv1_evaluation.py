@@ -42,7 +42,6 @@ def get_prompt(question):
 
 
 def extract_non_inst_text(text):
-    # This regex finds all text outside of [INST]...[/INST] blocks
     non_inst_text = ''
     if args.model == 'LlavaNext':
         non_inst_text = re.sub(r'\[INST\].*?\[/INST\]', '', text, flags=re.DOTALL)
