@@ -27,7 +27,7 @@ To run inference, please first install LAVIS library, following the instructions
 
 For BLIP2, InstructBLIP, LLaVA-1.5(7b), LLaVA-1.5(13b),LLaVA-NeXT(7b),we leverage the Huggingface Library, loading these model directly, and perform inference. [Example inference codes](https://github.com/KevinLuJian/MLLM_supplemental/raw/main/inference_code)
 
-For GPT-4v/GPT-4o, we use the API from Open-AI to perform inference.
+For GPT-4v/GPT-4o, we use the API from Open-AI to perform inference.[Example inference codes](https://github.com/KevinLuJian/MLLM_supplemental/raw/main/GPT-inference)
 
 ## Evaluation Script
 To evaluate the performance of the models on the datasets, we provide evaluation scripts for each dataset. Please prepare the answer files in the format of the question-answer pairs we provided. You can download the evaluation scripts from this repository:
