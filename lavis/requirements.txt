@@ -34,6 +34,7 @@ nltk
 peft
 gdown
 num2words
+openai
 
 easydict==1.9
 pyyaml_env_tag==0.1
