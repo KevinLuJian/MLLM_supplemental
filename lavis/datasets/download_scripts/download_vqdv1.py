@@ -52,8 +52,13 @@ if __name__ == "__main__":
     json_path = OmegaConf.load(
         config_path
     ).datasets.VQDv1.build_info.annotations.val.storage
-
     json_path = get_cache_path(json_path)
+
+    directory = os.path.dirname(json_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        print(f"Created directories: {directory}")
+
     print(f"cache: {json_path}")
     download_json(json_path)
 

@@ -65,11 +65,13 @@ if __name__ == "__main__":
         config_path
     ).datasets.TDIUC.build_info.annotations.test.storage
     json_path = get_cache_path(json_path)
-
+    directory = os.path.dirname(json_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        print(f"Created directories: {directory}")
     download_json(json_path)
 
     storage_dir = Path(get_cache_path(storage_dir))
-    print(f"length: {len(os.listdir(storage_dir))}, {storage_dir}")
     if os.path.exists(storage_dir) == False:
         os.makedirs(storage_dir)
         download_and_extract_zip('val2014.zip', storage_dir)

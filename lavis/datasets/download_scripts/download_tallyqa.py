@@ -58,7 +58,10 @@ if __name__ == "__main__":
         config_path
     ).datasets.TallyQA.build_info.annotations.test.storage
     json_path = get_cache_path(json_path)
-
+    directory = os.path.dirname(json_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        print(f"Created directories: {directory}")
     download_json(json_path)
 
     download_dir = Path(get_cache_path(storage_dir)).parent / "download"

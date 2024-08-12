@@ -67,6 +67,7 @@ class TDIUCDataset(BaseDataset, __DisplMixin):
 
         # Constructs the full path to the image file.
         image_name = replace_image_id("COCO_val2014_000000000294.jpg", ann["image_id"])
+        image_name = os.path.join('val2014',image_name)
         image_path = os.path.join(self.vis_root, image_name)
         image = None
         if os.path.exists(image_path): 

@@ -5,12 +5,14 @@ import json
 from lavis.datasets.builders import load_dataset
 import time
 import argparse
-
+import re
 # Load processor and model
 
 
 parser = argparse.ArgumentParser(description='Select model to use for visual question answering.')
 parser.add_argument('--model', type=str, required=True, help='Model to use for visual question answering')
+parser.add_argument('--device', type=str, required=True)
+parser.add_argument('--answer', type=str, required=True)
 args = parser.parse_args()
 
 if args.model == 'LlavaNext':
@@ -34,21 +36,36 @@ elif args.model == 'LLaVA1.513b':
     processor = AutoProcessor.from_pretrained("llava-hf/llava-1.5-13b-hf")
     model = LlavaForConditionalGeneration.from_pretrained("llava-hf/llava-1.5-13b-hf", torch_dtype=torch.float16, low_cpu_mem_usage=True)
 
-model.to("cuda:0")
+model.to(args.device)
 
 # Load dataset and prepare output file
 tallyqa_dataset = load_dataset("tallyqa_dataset")
-ans_file = open(f'/path/to/ans_file.jsonl', "a")
+ans_file = open(args.answer, "a")
 
 
 def get_prompt(question, prompt):
     if args.model == 'LlavaNext':
         return f"[INST] <image>\n{question}, {prompt}/INST]"
     elif args.model == 'LLaVA1.513b' or args.model == 'LLaVA1.57b':
-        return f"USER: <image>\n {question}, {prompt} \nASSISTANT"
+        return f"USER: <image>\n {question}, {prompt} \nASSISTANT:"
     else:
         return f"{question}, {prompt}"
 
+def extract_answer(answer):
+    if args.model == 'LlavaNext':
+        match = re.search(r"INST\](.*)$", answer)
+        # Check if the match was found
+        if match:
+            extracted_text = match.group(1).strip()
+            # print("Extracted text:", extracted_text)
+            return extracted_text
+        else:
+            return None
+    elif args.model == 'LLaVA1.513b' or args.model == 'LLaVA1.57b':
+        match = re.search(r'ASSISTANT:(.*)', answer, flags=re.DOTALL)
+        return match.group(1).strip()
+    else:
+        return answer
 start_time = time.time()
 
 for i, a in enumerate(tallyqa_dataset['test'], start=1):
@@ -63,7 +80,7 @@ for i, a in enumerate(tallyqa_dataset['test'], start=1):
     prompt = get_prompt(question, prompt)
 
 
-    inputs = processor(images=image, text=prompt, return_tensors="pt", padding=True, truncation=True).to("cuda:0")
+    inputs = processor(images=image, text=prompt, return_tensors="pt", padding=True, truncation=True).to(args.device)
 
     with torch.inference_mode():
         outputs = model.generate(
@@ -78,7 +95,8 @@ for i, a in enumerate(tallyqa_dataset['test'], start=1):
         )
 
     answer = processor.decode(outputs[0], skip_special_tokens=True).strip()
-    
+    answer = extract_answer(answer)
+   
     record = {
         "question_index": i,
         "question": question,
@@ -90,7 +108,7 @@ for i, a in enumerate(tallyqa_dataset['test'], start=1):
     }
     ans_file.write(json.dumps(record) + "\n")
     ans_file.flush()
-    print(f"{i} questions have been processed")
+    print(f"{i} questions have been processed, answer = {answer}")
 
 end_time = time.time()
 execution_time = end_time - start_time
