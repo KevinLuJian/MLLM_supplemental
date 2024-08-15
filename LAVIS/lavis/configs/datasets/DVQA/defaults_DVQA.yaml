@@ -1,0 +1,14 @@
+datasets:
+  DVQA: # name of the dataset builder
+    dataset_card: dataset_card/DVQA.md # path to the dataset card
+    data_type: images # [images|videos|features] we use features in this case for extracted video features
+
+    build_info:
+      # Be careful not to append minus sign (-) before split to avoid itemizing
+      annotations:
+        val:
+          url: https://github.com/KevinLuJian/MLLM-evaluation/blob/main/DVQA_sampling.json?raw=true
+          storage: DVQA/annotations/DVQA_sampling.json
+      images:
+          storage: DVQA/images
+
