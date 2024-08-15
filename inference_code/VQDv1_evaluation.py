@@ -35,7 +35,15 @@ elif args.model == 'QwenVL':
     tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen-VL-Chat", trust_remote_code=True)
     model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen-VL-Chat", torch_dtype=torch.float16, trust_remote_code=True).eval()
     model.generation_config = GenerationConfig.from_pretrained("Qwen/Qwen-VL-Chat", trust_remote_code=True)
-
+elif args.model == 'CogVLM':
+    from transformers import AutoModelForCausalLM, LlamaTokenizer
+    tokenizer = LlamaTokenizer.from_pretrained('lmsys/vicuna-7b-v1.5')
+    model = AutoModelForCausalLM.from_pretrained(
+        'THUDM/cogvlm-chat-hf',
+        torch_dtype=torch.bfloat16,
+        low_cpu_mem_usage=True,
+        trust_remote_code=True
+    ).to(args.device).eval()
 
 model.to(args.device)
 
@@ -54,6 +62,9 @@ def get_prompt(question):
     elif args.model == 'QwenVL':
         prompt = 'Detect and generate a bounding box for each instance of the requested object(s) within the image. If there are multiple instances of the object(s), ensure a separate bounding box is created for every single one, without exception. If the requested object(s) are not present, return no bounding boxes. Every matching instance must be framed individually to capture all occurrences accurately.'
         return f"{question}\n{prompt}"
+    elif args.model == 'CogVLM':
+        prompt = 'Please generate a list of bounding boxes coordinates of the region this query describes. Use the format [[x\_min,y\_min,x\_max,y\_max]....]. Do not respond in sentences, and only generate the bounding boxes. If no such region exists in the image, respond with an empty list.'
+        return f"{question}\n{prompt}"
 
 def extract_non_inst_text(text):
     non_inst_text = ''
@@ -68,7 +79,18 @@ def extract_non_inst_text(text):
     return non_inst_text
 
 def get_input(question, image, image_path=None):
-    if args.model == 'QwenVL':
+    if args.model == 'CogVLM':
+        prompts = get_prompt(question)
+        inputs = model.build_conversation_input_ids(\
+                tokenizer, query=prompts, history=[], images=[image])
+        inputs = {
+            'input_ids': inputs['input_ids'].unsqueeze(0).to(model.device),
+            'token_type_ids': inputs['token_type_ids'].unsqueeze(0).to(model.device),
+            'attention_mask': inputs['attention_mask'].unsqueeze(0).to(model.device),
+            'images': [[inputs['images'][0].to(model.device).to(torch.bfloat16)]],
+        }
+        return inputs
+    elif args.model == 'QwenVL':
         prompts = get_prompt(question)
         query = tokenizer.from_list_format([
             {'image': image_path},
@@ -125,9 +147,11 @@ with tqdm(total=len(dataset['val'])) as pbar:
 
         if args.model == 'QwenVL':
             answer = outputs[0]
+        elif args.model == 'CogVLM':
+            outputs = outputs[:, inputs['input_ids'].shape[1]:]
+            answer = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
         else:
             answer = processor.decode(outputs[0], skip_special_tokens=True).strip()
-        answer = extract_non_inst_text(answer)
 
         record = {
             "question_index": i,

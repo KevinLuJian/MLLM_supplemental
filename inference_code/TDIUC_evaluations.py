@@ -55,6 +55,15 @@ elif args.model == 'QwenVL':
     tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen-VL-Chat", trust_remote_code=True)
     model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen-VL-Chat", torch_dtype=torch.float16, trust_remote_code=True).eval()
     model.generation_config = GenerationConfig.from_pretrained("Qwen/Qwen-VL-Chat", trust_remote_code=True)
+elif args.model == 'CogVLM':
+    from transformers import AutoModelForCausalLM, LlamaTokenizer
+    tokenizer = LlamaTokenizer.from_pretrained('lmsys/vicuna-7b-v1.5')
+    model = AutoModelForCausalLM.from_pretrained(
+        'THUDM/cogvlm-chat-hf',
+        torch_dtype=torch.bfloat16,
+        low_cpu_mem_usage=True,
+        trust_remote_code=True
+    ).to(args.device).eval()
 
 
 model.to(args.device)
@@ -107,7 +116,18 @@ def extract_answer(answer):
         return answer
 
 def get_input(question, prompts, image, image_path=None):
-    if args.model == 'QwenVL':
+    if args.model == 'CogVLM':
+        prompts = get_prompt(question, prompts)
+        inputs = model.build_conversation_input_ids(\
+                tokenizer, query=prompts, history=[], images=[image])
+        inputs = {
+            'input_ids': inputs['input_ids'].unsqueeze(0).to(model.device),
+            'token_type_ids': inputs['token_type_ids'].unsqueeze(0).to(model.device),
+            'attention_mask': inputs['attention_mask'].unsqueeze(0).to(model.device),
+            'images': [[inputs['images'][0].to(model.device).to(torch.bfloat16)]],
+        }
+        return inputs
+    elif args.model == 'QwenVL':
         prompts = get_prompt(question, prompts)
         query = tokenizer.from_list_format([
             {'image': image_path},
@@ -163,8 +183,12 @@ with tqdm(total=len(TDIUC_dataset['test'])) as pbar:
                 )
         if args.model == 'QwenVL':
             answer = outputs[0]
+        elif args.model == 'CogVLM':
+            outputs = outputs[:, inputs['input_ids'].shape[1]:]
+            answer = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
         else:
             answer = processor.decode(outputs[0], skip_special_tokens=True).strip()
+
         answer = extract_answer(answer)
         record = {
             "question_index": i,
