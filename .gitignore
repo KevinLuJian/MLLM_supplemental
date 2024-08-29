@@ -6,3 +6,6 @@ LAVIS/salesforce_lavis.egg-info/*
 MGM/*
 model_zoo/*
 work_dirs/*
+LLaMA2-Accessory/*
+eval_script/__pycache__/normalize_answer.cpython-38.pyc
+sphinx-v2-1k/*

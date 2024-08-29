@@ -66,6 +66,11 @@ elif args.model == 'MGM-7B' or args.model == 'MGM-7B-HD':
     model_name = get_model_name_from_path(model_path)
     tokenizer, model, image_processor, context_len = load_pretrained_model(\
                 model_path, None, model_name, device=args.device)
+elif args.model == 'SPHINX':
+    from SPHINX import SPHINXModel
+    model = SPHINXModel.from_pretrained(pretrained_path="sphinx-v2-1k", with_visual=True, \
+        torch_dtype=torch.float16).eval()
+
 
 model.to(args.device) # We use Nividia A100 GPU for inference, so we use cuda:0.
 
@@ -166,6 +171,9 @@ def get_input(question, prompts, image, image_path=None):
 
         input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).to(model.device)
         return (input_ids, image_tensor, image_tensor_aux)
+    elif args.model == 'SPHINX':
+        prompts = get_prompt(question, prompts)
+        return (prompts, image)
 
     elif args.model == 'CogVLM':
         prompts = get_prompt(question, prompts)
@@ -264,6 +272,17 @@ with tqdm(total=len(dvqa_dataset['val'])) as pbar:
                         num_beams=1,
                         top_p=0.9)
 
+            elif args.model == 'SPHINX':
+                prompts, image = inputs
+                prompts = [[prompts, None]]
+                outputs = model.generate_response(prompts, image, \
+                    do_sample=False,
+                    num_beams=1,
+                    max_new_tokens=100,
+                    top_p=0.9,
+                    repetition_penalty=1.2,
+                    length_penalty=1.5,
+                    temperature=0)
             else:
                 outputs = model.generate(
                     **inputs,
@@ -278,6 +297,8 @@ with tqdm(total=len(dvqa_dataset['val'])) as pbar:
 
         if args.model == 'QwenVL':
             answer = outputs[0]
+        elif args.model == 'SPHINX':
+            answer = outputs
         elif args.model == 'CogVLM':
             outputs = outputs[:, inputs['input_ids'].shape[1]:]
             answer = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()

@@ -77,7 +77,8 @@ def get_prompt(question):
         prompt = 'Detect and generate a bounding box for each instance of the requested object(s) within the image. If there are multiple instances of the object(s), ensure a separate bounding box is created for every single one, without exception. If the requested object(s) are not present, return no bounding boxes. Every matching instance must be framed individually to capture all occurrences accurately.'
         return f"{question}\n{prompt}"
     elif args.model == 'CogVLM':
-        prompt = 'Please generate a list of bounding boxes coordinates of the region this query describes. Use the format [[x\_min,y\_min,x\_max,y\_max]....]. Do not respond in sentences, and only generate the bounding boxes. If no such region exists in the image, respond with an empty list.'
+        prompt = 'Respond ONLY with a list of bounding boxes coordinates. Format: [[x1\_min,y1\_min,x1\_max,y1\_max],[x2\_min,y2\_min,x2\_max,y2\_max]....]. If no such region exists in the image, respond with an empty list.'
+        # 'Respond exclusively with either a list of bounding boxes coordinates or an empty list. No other text! Format : [[x1\\_min,y1\\_min,x1\\_max,y1\\_max],[x2\\_min,y2\\_min,x2\\_max,y2\\_max]....].'
         return f"{question}\n{prompt}"
     elif args.model == 'llava-OV':
         # Same as LLaVA-NeXT
@@ -96,6 +97,14 @@ def extract_non_inst_text(text):
         if match:
             non_inst_text = match.group(1).strip()
     elif (args.model == 'llava-OV') or (args.model == 'MGM-7B') or (args.model == 'MGM-7B-HD'):
+        # Extract the bounding box information in the format [x_min, y_min, x_max, y_max]
+        bbox_match = re.findall(r'\[\s*\d*\.?\d*\s*,\s*\d*\.?\d*\s*,\s*\d*\.?\d*\s*,\s*\d*\.?\d*\s*\]', text)
+        if bbox_match:
+            # If bounding box matches are found, join them into a list format
+            non_inst_text = '[' + ', '.join(bbox_match) + ']'
+        else:
+            non_inst_text = '[[]]'  # Return an empty list if no bounding boxes are found
+    elif args.model == 'CogVLM':
         # Extract the bounding box information in the format [x_min, y_min, x_max, y_max]
         bbox_match = re.findall(r'\[\s*\d*\.?\d*\s*,\s*\d*\.?\d*\s*,\s*\d*\.?\d*\s*,\s*\d*\.?\d*\s*\]', text)
         if bbox_match:

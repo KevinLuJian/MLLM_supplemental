@@ -1,4 +1,12 @@
 open_clip_torch
+tensorboard
+gradio==3.50.2
+open_clip_torch
+fire
+pathlib
+Ninja
+bitsandbytes
+httpx[socks]
 gdown
 tiktoken
 transformers_stream_generator
