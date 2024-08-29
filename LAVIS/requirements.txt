@@ -1,3 +1,4 @@
+open_clip_torch
 gdown
 tiktoken
 transformers_stream_generator

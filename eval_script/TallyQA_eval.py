@@ -115,7 +115,9 @@ if __name__ == '__main__':
     parser.add_argument('--path', type=str, help='answer_path')
     # Parse the arguments
     args = parser.parse_args()
+    print(f"====================TallyQA Evaluations {args.path}====================\n")
+    print(f"MICRO")
     micro_analyse(args.path)
-    print("\n")
+    print(f"MACRO")
     macro_accuracy(args.path)
     

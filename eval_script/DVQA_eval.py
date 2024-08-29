@@ -49,7 +49,7 @@ def open_jsonl_file(file_path):
 def eval_model(file_path):
 
     data = open_jsonl_file(file_path)
-
+    print(f"====================DVQA Evaluations {file_path}====================\n")
    
     my_dict = {}
 
@@ -98,7 +98,7 @@ def eval_model(file_path):
     macro_accuracy = 0
     for type in my_dict:
         correct, total = my_dict[type]
-        print(f"question type: {type}: accuracy: {correct/total}, total {type} question = {total}, correct = {correct}")
+        print(f"\nquestion type: {type}: accuracy: {correct/total} | total {type} question = {total}, correct = {correct}")
         macro_accuracy += correct/total
     print(f"micro accuracy: {overall_correct/overall_total:.4f}")
     print(f"macro accuracy: {macro_accuracy/len(my_dict):.4f}")

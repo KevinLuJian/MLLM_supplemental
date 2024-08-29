@@ -54,6 +54,21 @@ elif args.model == 'CogVLM':
         low_cpu_mem_usage=True,
         trust_remote_code=True
     ).to(args.device).eval()
+elif args.model == 'llava-OV':
+    from transformers import AutoProcessor, LlavaOnevisionForConditionalGeneration
+    processor = AutoProcessor.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf")
+    model = LlavaOnevisionForConditionalGeneration.from_pretrained("llava-hf/llava-onevision-qwen2-7b-ov-hf", torch_dtype=torch.float16, low_cpu_mem_usage=True)
+elif args.model == 'MGM-7B' or args.model == 'MGM-7B-HD':
+    from mgm.constants import IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
+    from mgm.conversation import conv_templates, SeparatorStyle
+    from mgm.model.builder import load_pretrained_model
+    from mgm.utils import disable_torch_init
+    from mgm.mm_utils import process_images, tokenizer_image_token, get_model_name_from_path, KeywordsStoppingCriteria
+    model_path = "work_dirs/MGM/MGM-7B" if args.model == 'MGM-7B' else "work_dirs/MGM/MGM-7B-HD"
+    model_name = get_model_name_from_path(model_path)
+    tokenizer, model, image_processor, context_len = load_pretrained_model(\
+                model_path, None, model_name, device=args.device)
+
 
 model.to(args.device)
 
@@ -71,7 +86,86 @@ def get_prompt(question, prompt):
         return f"{question}, {prompt}"
 
 def get_input(question, prompts, image, image_path=None):
-    if args.model == 'CogVLM':
+    if args.model == 'MGM-7B' or args.model == 'MGM-7B-HD':
+        conv_mode = "vicuna_v1"
+        conv = conv_templates[conv_mode].copy()
+        inp = get_prompt(question, prompts)
+        image = [image]
+
+        if hasattr(model.config, 'image_size_aux'):
+            if not hasattr(image_processor, 'image_size_raw'):
+                image_processor.image_size_raw = image_processor.crop_size.copy()
+            image_processor.crop_size['height'] = model.config.image_size_aux
+            image_processor.crop_size['width'] = model.config.image_size_aux
+            image_processor.size['shortest_edge'] = model.config.image_size_aux
+        
+        image_tensor = process_images(image, image_processor, model.config)
+    
+        image_grid = getattr(model.config, 'image_grid', 1)
+        if hasattr(model.config, 'image_size_aux'):
+            raw_shape = [image_processor.image_size_raw['height'] * image_grid,
+                        image_processor.image_size_raw['width'] * image_grid]
+            image_tensor_aux = image_tensor 
+            image_tensor = torch.nn.functional.interpolate(image_tensor,
+                                                        size=raw_shape,
+                                                        mode='bilinear',
+                                                        align_corners=False)
+        else:
+            image_tensor_aux = []
+
+        if image_grid >= 2:            
+            raw_image = image_tensor.reshape(3, 
+                                            image_grid,
+                                            image_processor.image_size_raw['height'],
+                                            image_grid,
+                                            image_processor.image_size_raw['width'])
+            raw_image = raw_image.permute(1, 3, 0, 2, 4)
+            raw_image = raw_image.reshape(-1, 3,
+                                        image_processor.image_size_raw['height'],
+                                        image_processor.image_size_raw['width'])
+                    
+            if getattr(model.config, 'image_global', False):
+                global_image = image_tensor
+                if len(global_image.shape) == 3:
+                    global_image = global_image[None]
+                global_image = torch.nn.functional.interpolate(global_image, 
+                                                            size=[image_processor.image_size_raw['height'],
+                                                                    image_processor.image_size_raw['width']], 
+                                                            mode='bilinear', 
+                                                            align_corners=False)
+                # [image_crops, image_global]
+                raw_image = torch.cat([raw_image, global_image], dim=0)
+            image_tensor = raw_image.contiguous()
+            image_tensor = image_tensor.unsqueeze(0)
+    
+        if type(image_tensor) is list:
+            image_tensor = [image.to(model.device, dtype=torch.float16) for image in image_tensor]
+            image_tensor_aux = [image.to(model.device, dtype=torch.float16) for image in image_tensor_aux]
+        else:
+            image_tensor = image_tensor.to(model.device, dtype=torch.float16)
+            image_tensor_aux = image_tensor_aux.to(model.device, dtype=torch.float16)
+
+        if model.config.mm_use_im_start_end:
+                inp = DEFAULT_IM_START_TOKEN + DEFAULT_IMAGE_TOKEN + DEFAULT_IM_END_TOKEN + '\n' + inp
+        else:
+            inp = (DEFAULT_IMAGE_TOKEN + '\n')*len(image) + inp
+        conv.append_message(conv.roles[0], inp)
+        conv.append_message(conv.roles[1], None)
+        prompt = conv.get_prompt()
+        # add image split string
+        if prompt.count(DEFAULT_IMAGE_TOKEN) >= 2:
+            final_str = ''
+            sent_split = prompt.split(DEFAULT_IMAGE_TOKEN)
+            for _idx, _sub_sent in enumerate(sent_split):
+                if _idx == len(sent_split) - 1:
+                    final_str = final_str + _sub_sent
+                else:
+                    final_str = final_str + _sub_sent + f'Image {_idx+1}:' + DEFAULT_IMAGE_TOKEN
+            prompt = final_str
+
+        input_ids = tokenizer_image_token(prompt, tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt').unsqueeze(0).to(model.device)
+        return (input_ids, image_tensor, image_tensor_aux)
+    elif args.model == 'CogVLM':
         prompts = get_prompt(question, prompts)
         inputs = model.build_conversation_input_ids(
             tokenizer, query=prompts, history=[], images=[image]
@@ -90,6 +184,20 @@ def get_input(question, prompts, image, image_path=None):
             {'text': f"{prompts}"},
             ])
         return query
+    elif args.model == 'llava-OV':
+        prompts = get_prompt(question, prompts)
+        conversation = [
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image"},
+                    {"type": "text", "text": f"{prompts}"},
+                ],
+            },
+        ]
+        prompts = processor.apply_chat_template(conversation, add_generation_prompt=True)
+        inputs = processor(images=image, text=prompts, return_tensors="pt").to(model.device, torch.float16)
+        return inputs
     else:
         prompts = get_prompt(question, prompts)
         inputs = processor(images=image, text=prompts, return_tensors="pt", padding=True, truncation=True).to(model.device)
@@ -136,6 +244,22 @@ with tqdm(total=len(tallyqa_dataset['test'])) as pbar:
                     repetition_penalty=1.2,
                     length_penalty=1.5,
                     temperature=0)
+            elif args.model == 'MGM-7B' or args.model == 'MGM-7B-HD':
+                input_ids, image_tensor, image_tensor_aux = inputs
+                outputs = model.generate(
+                        input_ids,
+                        images=image_tensor,
+                        images_aux=image_tensor_aux if len(image_tensor_aux)>0 else None,
+                        do_sample=False,
+                        bos_token_id=tokenizer.bos_token_id,  # Begin of sequence token
+                        eos_token_id=tokenizer.eos_token_id,  # End of sequence token
+                        pad_token_id=tokenizer.pad_token_id,  # Pad token
+                        temperature=0,
+                        repetition_penalty=1.2,
+                        length_penalty=1.5,
+                        max_new_tokens=100,
+                        num_beams=1,
+                        top_p=0.9)
             else:
                 outputs = model.generate(
                     **inputs,
@@ -153,6 +277,8 @@ with tqdm(total=len(tallyqa_dataset['test'])) as pbar:
         elif args.model == 'CogVLM':
             outputs = outputs[:, inputs['input_ids'].shape[1]:]
             answer = tokenizer.decode(outputs[0], skip_special_tokens=True).strip()
+        elif args.model == 'MGM-7B' or args.model == 'MGM-7B-HD':
+            answer = tokenizer.batch_decode(outputs, skip_special_tokens=True)[0].strip()
         else:
             answer = processor.decode(outputs[0], skip_special_tokens=True).strip()
             

@@ -71,4 +71,5 @@ if __name__ == '__main__':
     parser.add_argument('--path', type=str, help='answer_path')
     # Parse the arguments
     args = parser.parse_args()
+    print(f"====================TDIUC Evaluations {args.path}====================\n")
     eval_model(args.path)

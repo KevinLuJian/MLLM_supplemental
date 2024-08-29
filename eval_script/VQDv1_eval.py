@@ -36,10 +36,26 @@ def calculate_iou(box1, box2):
     
     return iou
 
-def normalize_multiple_coordinates(coord_str, width, height):
+def extract_qwen2(input_string):
+    # Regular expression to find all <box> tags and extract the numbers inside them
+    pattern = r"<box>\((\d+),(\d+)\),\((\d+),(\d+)\)</box>"
+    
+    # Find all matches in the input string
+    matches = re.findall(pattern, input_string)
+    
+    # Process and store the extracted numbers
+    boxes = []
+    for match in matches:
+        x1, y1, x2, y2 = match
+        boxes.append([int(x1), int(y1), int(x2), int(y2)])
+    print(f"the coordinate is {boxes}")
+    return boxes
+
+def normalize_multiple_coordinates(coord_str, width, height,model_name):
+    if model_name == "qwen":
+        return extract_qwen2(coord_str)
     # Regular expression to extract all bounding box coordinates
     matches = re.findall(r"\[(.*?)\]", coord_str)
-    
     # Initialize an empty list to store the converted pixel coordinates
     pixel_coords_list = []
     
@@ -68,6 +84,8 @@ def normalize_multiple_coordinates(coord_str, width, height):
         pixel_coords_list.append([x1, y1, x2, y2])
     
     return pixel_coords_list
+
+
 
 # For the labeled bounding box
 def normalize_bounding_boxes(boxs):
@@ -99,7 +117,7 @@ def find_and_remove_best_iou(target_box, box_list):
     
     return box_list, 1 if best_iou >= 0.5 else 0
 
-def eval_model(file_path):
+def eval_model(file_path, model):
     datas = []
     with open(file_path, 'r') as file:
         for line in file:
@@ -117,7 +135,7 @@ def eval_model(file_path):
         width = data['width']
         height = data['height']
 
-        predicted_answer = normalize_multiple_coordinates(coord_str, width, height)
+        predicted_answer = normalize_multiple_coordinates(coord_str, width, height,model)
         labeled_answer = normalize_bounding_boxes(labeled_answer)
     
         if len(labeled_answer) not in dict:
@@ -185,8 +203,10 @@ if __name__ == "__main__":
 
     # Add the arguments
     parser.add_argument('--path', type=str, help='answer_path')
-
+    parser.add_argument('--model', type=str, help='model_name')
+    
     # Parse the arguments
     args = parser.parse_args()
-    eval_model(args.path)
+    print(f"====================VQDv1 Evaluations {args.path}====================\n")
+    eval_model(args.path,args.model)
     

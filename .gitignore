@@ -3,3 +3,6 @@ LAVIS/cache/*
 LAVIS/salesforce_lavis.egg-info/*
 *.DS_Store
 *.ttf
+MGM/*
+model_zoo/*
+work_dirs/*
