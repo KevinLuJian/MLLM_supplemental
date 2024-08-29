@@ -154,7 +154,7 @@ if __name__ == "__main__":
         for i, entry in enumerate(data):
             entry[model_name] = test[i]
 
-    df.to_csv('hypo_testing/vqdv1.csv', index=False)
+    filename = 'hypo_testing/vqdv1.csv'
 
     # Get the fieldnames from the first dictionary in the data
     fieldnames = data[0].keys()

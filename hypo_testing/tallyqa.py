@@ -182,3 +182,33 @@ if __name__ == '__main__':
     
    
     df.to_csv('hypo_testing/tallyqa.csv', index=False)
+    # Splitting the writting file into TallyQA Simple and Complex.
+    import csv
+
+    with open('hypo_testing/tallyqa.csv', 'r') as csvfile:
+        reader = csv.DictReader(csvfile)
+        complex_rows = []
+        simple_rows = []
+        for row in reader:
+            # Remove the 'issimple' key from the row
+            if row['issimple'] == 'True':
+                row.pop('issimple', None)
+                simple_rows.append(row)
+            else:
+                row.pop('issimple', None)
+                complex_rows.append(row)
+
+    # Use the fieldnames from the reader and remove 'issimple' from the list
+    fieldnames = [field for field in reader.fieldnames if field != 'issimple']
+
+    # Write complex rows to tallyqa_complex.csv
+    with open('hypo_testing/tallyqa_complex.csv', 'w+', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(complex_rows)
+
+    # Write simple rows to tallyqa_simple.csv
+    with open('hypo_testing/tallyqa_simple.csv', 'w+', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(simple_rows)
