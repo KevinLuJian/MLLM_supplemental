@@ -39,6 +39,3 @@ The most important components are the predicted answer and the labeled answer.
 For the datasets VQDv1, TDIUC, and DVQA, where we sample a portion of the original testing datasets, we provide the sampling scripts that show how the datasets are being sampled, with detailed instructions in the readme file.
 
 - [Download data sampling scripts](https://github.com/KevinLuJian/MLLM_supplemental/tree/main/datasets_sampling)
-
-## License
-&copy; 2024 Multi-Model LLM Evaluations. All rights reserved.
